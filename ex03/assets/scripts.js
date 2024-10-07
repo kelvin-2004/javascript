@@ -1,29 +1,32 @@
-const form = document.getElementById('task-form');
-const taskList = document.getElementById('tasks');
+let currentNumberWrapper = document.getElementById('currentNumber');
+let currentNumber = 0;
 
-form.onsubmit = function (e) {
-    e.preventDefault();
-    const inputField = document.getElementById('task-input');
-    addTask(inputField.value);
-    form.reset();
-};
-
-function addTask(description) {
-    const taskContainer = document.createElement('div');
-    const newTask = document.createElement('input');
-    const taskLabel = document.createElement('label');
-    const taskDescriptionNode = document.createTextNode(description);
-
-    newTask.setAttribute('type', 'checkbox');
-    newTask.setAttribute('name', description);
-    newTask.setAttribute('id', description);
-
-    taskLabel.setAttribute('for', description);
-    taskLabel.appendChild(taskDescriptionNode);
-
-    taskContainer.classList.add('task-item');
-    taskContainer.appendChild(newTask);
-    taskContainer.appendChild(taskLabel);
-
-    taskList.appendChild(taskContainer);
+function updateNumber() {
+    currentNumberWrapper.innerHTML = currentNumber;
+    currentNumberWrapper.style.color = currentNumber < 0 ? 'red' : 'black';
+    btnAdicionar.disabled = currentNumber >= 10;
+    btnSubtrair.disabled = currentNumber <= -10;
 }
+
+function increment() {
+    if (currentNumber < 10) {
+        currentNumber += 1;
+        updateNumber();
+    }
+}
+
+function decrement() {
+    if (currentNumber > -10) {
+        currentNumber -= 1;
+        updateNumber();
+    }
+}
+
+let btnAdicionar = document.querySelector('button[name="adicionar"]');
+let btnSubtrair = document.querySelector('button[name="subtrair"]');
+
+btnAdicionar.addEventListener('click', increment);
+btnSubtrair.addEventListener('click', decrement);
+
+
+updateNumber();
